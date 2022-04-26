@@ -49,9 +49,17 @@ async function run() {
 
     // Find All Products
     app.get('/products', async (req, res) => {
-      const users = await productCollection.find({}).toArray();
-      res.status(201).json(users)
-    })
+      const products = await productCollection.find({}).toArray();
+      res.status(201).json(products)
+    });
+
+    // Find Clicked Car to delete from Explore cars (Admin)
+    app.delete('/deleteproduct/:id', async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: ObjectId(id)}
+      const result = await productCollection.deleteOne(query);
+      res.json(result)
+    });
 
   } finally {
     // await client.close();
