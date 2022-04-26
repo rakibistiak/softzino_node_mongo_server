@@ -53,19 +53,38 @@ async function run() {
       res.status(201).json(products)
     });
 
-    // Find Clicked Car to delete from Explore cars (Admin)
+    // Find Clicked Product to delete from All Product (Admin)
     app.delete('/deleteproduct/:id', async(req,res)=>{
       const id = req.params.id;
       const query = {_id: ObjectId(id)}
       const result = await productCollection.deleteOne(query);
       res.json(result)
     });
-
-     // Post New Add a Products info to carCollection
-     app.post('/addProduct', async (req, res) => {
+    
+    // Post New Add a Products info to carCollection
+    app.post('/addProduct', async (req, res) => {
       const productInfo = req.body;
       const result = await productCollection.insertOne(productInfo);
       res.json(result)
+    });
+    
+    
+    // Post New Add a Products info to carCollection
+    app.get('/dashboard/findProduct/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = {_id: ObjectId(id)}
+      const result = await productCollection.findOne(query);
+      res.json(result)
+    });
+
+    app.put('/dashboard/editProduct/:id', async (req, res) => {
+      const id = req.params.id;
+      const user = req.body;
+      const query = {_id: ObjectId(id)};
+      const options = { upsert: true }
+      const updateUser = { $set: user };
+      const result = await productCollection.updateOne(query, updateUser, options)
+      res.status(201).send(result.acknowledged)
     });
 
   } finally {
