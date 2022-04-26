@@ -20,9 +20,10 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
   try {
     await client.connect();
-    
+
     const database = client.db("Softzino");
     const userCollection = database.collection("User_Info");
+    const productCollection = database.collection("products");
 
     // Store Logged in User Data
     app.post('/users', async (req, res) => {
@@ -40,9 +41,16 @@ async function run() {
       const result = await userCollection.updateOne(query, updateUser, options)
       res.send(result.acknowledged)
     });
+    // Find All users
+    app.get('/user', async (req, res) => {
+      const users = await userCollection.find({}).toArray();
+      res.status(201).json(users)
+    })
 
-    app.get('/user', async (req, res)=>{
-        const users = await userCollection.find({}).toArray();
+    // Find All Products
+    app.get('/products', async (req, res) => {
+      const users = await productCollection.find({}).toArray();
+      res.status(201).json(users)
     })
 
   } finally {
@@ -52,9 +60,9 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/', (req, res) => {
-    res.send("I am now in Softzino Server")
-  });
+  res.send("I am now in Softzino Server")
+});
 app.listen(port, () => {
-    console.log("Softzino listening at port ", port);
-  
-  })
+  console.log("Softzino listening at port ", port);
+
+})
