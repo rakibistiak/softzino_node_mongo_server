@@ -61,6 +61,13 @@ async function run() {
       res.json(result)
     });
 
+     // Post New Add a Products info to carCollection
+     app.post('/addProduct', async (req, res) => {
+      const productInfo = req.body;
+      const result = await productCollection.insertOne(productInfo);
+      res.json(result)
+    });
+
   } finally {
     // await client.close();
   }
