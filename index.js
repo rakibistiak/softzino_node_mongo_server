@@ -42,7 +42,7 @@ async function run() {
     });
 
     app.get('/user', async (req, res)=>{
-        const user = await userCollection.find({}).toArray();
+        const users = await userCollection.find({}).toArray();
     })
 
   } finally {
