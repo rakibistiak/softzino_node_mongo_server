@@ -61,7 +61,7 @@ async function run() {
       res.json(result)
     });
     
-    // Post New Add a Products info to carCollection
+    // Post New Add a Products info to produtCollection (Admin)
     app.post('/addProduct', async (req, res) => {
       const productInfo = req.body;
       const result = await productCollection.insertOne(productInfo);
@@ -69,7 +69,7 @@ async function run() {
     });
     
     
-    // Post New Add a Products info to carCollection
+    // Post New Add a Products info to productCollection
     app.get('/dashboard/findProduct/:id', async (req, res) => {
       const id = req.params.id;
       const query = {_id: ObjectId(id)}
@@ -77,6 +77,7 @@ async function run() {
       res.json(result)
     });
 
+    // Edit any product
     app.put('/dashboard/editProduct/:id', async (req, res) => {
       const id = req.params.id;
       const user = req.body;
